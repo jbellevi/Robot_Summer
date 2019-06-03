@@ -48,3 +48,7 @@
 ### 4. Aim for avengers first, then 1 infinity  stone maybe
 * NAH
 
+
+# Conclusion of the strategy talk
+**Primary goal:** Collect as many infinity stones as possible within time constraint, while maintaining the possibility of updating robot to get avengers (that might involve making sure the claw can work for both, adding detection)
+**Secondary/stretch goal:** To make note of any avengers we see on the way out to infinity stones, and to be able to take those if something goes horribly wrong and the other team eats all the infinity stones we want
