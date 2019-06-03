@@ -46,11 +46,24 @@
 * Adjustable parameters such as sensitivity to light (differentiating black tape and surface) must be adjustable without reprogramming the robot
 
 ## Infinity stones
+### Arm
+* Arm must be able to report which height it's at (within a certain accuracy later to be determined)
+* Claw must be capable of gripping something of varying sizes (infinity stones): width ~ 2 cm, heights 3-5 cm
+* Robot must be able to deposit stones into gauntlet (whether that be through claw, or another attached mechanism)
+* *Strategy based decision:* Robot must be able to store multiple stones
+
+### Sensors
+* Robot must have a tape sensor which is able to detect black tape on the post (. 
 
 ## Avengers
+### Arm and chassis
+* Must be able to pick up avengers
+* *Strategy based decision:* Must be able to store avengers
+* Must be able to dump avengers into sanctum/pit of Death
 
 ### Sensors
 * Must detect and differentiate between 1kHz and 10 kHz beacons
+* Must be able to detect avengers
 
 ### Software
 * Must be able to go "off trail" and orient self based on infrared beacons
