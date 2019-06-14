@@ -15,8 +15,8 @@
 #define NUM_PAST_ERRORS 10
 #define MAX_ANALOG 1023
 
-#define PIN_PROP PA_5
-#define PIN_DERIV PA_6
+#define PIN_PROP PB_0
+#define PIN_DERIV PB_1
 // #define PIN_INT PA_7
 #define OLED_RESET -1
 
