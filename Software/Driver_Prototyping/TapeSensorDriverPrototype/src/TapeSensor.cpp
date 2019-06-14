@@ -10,10 +10,16 @@
 #define TUNING_POTENTIOMETER PA_6
 
 PinName lastSensor = LEFT_SENSOR; // arbitrarily set
+uint32_t tape_sensor_threshold = 400;  
 
 uint8_t leftSensor();
 uint8_t rightSensor();
 
+/**
+ * Returns estimated error in tape following from two front sensors
+ * Returns: estimated error, + value if robot too far right, - value if too far left
+ * Exact values in use defined in header
+ */
 int getTapeFollowingError() {
     uint8_t left = leftSensor();
     uint8_t right = rightSensor();
@@ -32,10 +38,20 @@ int getTapeFollowingError() {
     }
 }
 
+/**
+ * Returns: 0 if left sensor is over threshold (over white)
+ *          1 if left sensor is below threshold (over tape)
+ */
 uint8_t leftSensor() {
-    return analogRead(LEFT_SENSOR) > analogRead(TUNING_POTENTIOMETER);
+    return analogRead(LEFT_SENSOR) < tape_sensor_threshold;
+    //return analogRead(LEFT_SENSOR) < analogRead(TUNING_POTENTIOMETER);
 }
 
+/**
+ * Returns: 0 if right sensor is over threshold (over white)
+ *          1 if right sensor is below threshold (over tape)
+ */
 uint8_t rightSensor() {
-    return analogRead(RIGHT_SENSOR) > analogRead(TUNING_POTENTIOMETER);
+    return analogRead(RIGHT_SENSOR) < tape_sensor_threshold;
+    //return analogRead(RIGHT_SENSOR) < analogRead(TUNING_POTENTIOMETER);
 }

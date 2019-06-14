@@ -19,9 +19,13 @@
 uint32_t PWM_initialised = 0;
 
 /**
- * 
+ * Runs motor when provided with a power ratio
+ * TODO: change input power ratio for desired torque output
+ * Params: motor - LEFT_MOTOR or RIGHT_MOTOR
+ *         direction - intended direction of rotation: FORWARD or BACKWARD
+ *         duty_cycle - duty cycle as fraction, between 0 and 1
  */
-void runMotor(uint8_t motor, uint8_t direction, float power_ratio)
+void runMotor(uint8_t motor, uint8_t direction, float duty_cycle)
 {
     PinName fwd;
     PinName back;
@@ -35,10 +39,10 @@ void runMotor(uint8_t motor, uint8_t direction, float power_ratio)
 
     if (direction == FORWARD) {
         pwm_stop(back);
-        pwm_start(fwd, CLOCK_FREQUENCY, PERIOD, power_ratio * PERIOD, PWM_initialised);
+        pwm_start(fwd, CLOCK_FREQUENCY, PERIOD, duty_cycle * PERIOD, !PWM_initialised);
     } else {
         pwm_stop(fwd);
-        pwm_start(back, CLOCK_FREQUENCY, PERIOD, power_ratio*PERIOD, PWM_initialised);
+        pwm_start(back, CLOCK_FREQUENCY, PERIOD, duty_cycle * PERIOD, !PWM_initialised);
     }
 
     if (!PWM_initialised) {

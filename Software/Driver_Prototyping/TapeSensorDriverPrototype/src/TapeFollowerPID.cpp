@@ -2,25 +2,27 @@
  * TapeFollowerPID function with tuning
  * Outputs (roughly) values to OLED screen
  */
-#include <Wire.h>
 #include <Arduino.h>
 #include "TapeFollowerPID.h"
+
+// Setting up OLED display
+#include <Wire.h>
 #include <Adafruit_SSD1306.h>
 #include <FreeMono12pt7b.h>
-
 #if (SSD1306_LCDHEIGHT != 64)
 #error("Height incorrect, please fix Adafruit_SSD1306.h!");
 #endif
+#define DELTA_TO_PRINT 10
+#define OLED_RESET -1
+Adafruit_SSD1306 display(OLED_RESET);
 
-#define NUM_PAST_ERRORS 10
+// PID related values
+#define NUM_PAST_ERRORS 10 // number of errors to save
 #define MAX_ANALOG 1023
-
 #define PIN_PROP PB_0
 #define PIN_DERIV PB_1
-// #define PIN_INT PA_7
-#define OLED_RESET -1
 
-Adafruit_SSD1306 display(OLED_RESET);
+// declare values necessary for calculations
 int pastErrors[NUM_PAST_ERRORS];
 int lastErrorIndex;
 int kp, kd, display_kp, display_kd;
@@ -30,6 +32,11 @@ float getD(int error);
 void updateError(int error);
 void updateCoefficients();
 
+/**
+ * Initialises PID follower module
+ * Reads starting kp and kd values
+ * Starts OLED screen
+ */
 void initPID() 
 {
     int i = 0;
@@ -48,6 +55,11 @@ void initPID()
     display.clearDisplay();
 }
 
+/**
+ * Gets PID value
+ * Params: error - the error (deviating from 0)
+ * Returns: PID value (proportional and derivative)
+ */
 float getPIDOutput(int error)
 {
     float out = getP(error) + getD(error);
@@ -55,28 +67,37 @@ float getPIDOutput(int error)
     if (out > 0.5) {
         out = 0.5;
     }
-    // int i = error * getKi();
 
     updateError(error);
     updateCoefficients();
 
-    return out; // + i;
+    return out; 
 }
 
+/**
+ * Returns: correction due to proportional error
+ */
 float getP(int error)
 {
-    return error * 0.5 * analogRead(PIN_PROP) / MAX_ANALOG;
+    return error * 0.5 * kp / MAX_ANALOG;
 }
 
+/**
+ * Returns: correction due to derivative error
+ */
 float getD(int error)
 {
     int errorIndex = lastErrorIndex + 1;
     if (errorIndex == NUM_PAST_ERRORS) {
         errorIndex = 0;
     }
-    return (error - pastErrors[errorIndex]) * 0.5 * analogRead(PIN_DERIV)/MAX_ANALOG;
+    return (error - pastErrors[errorIndex]) * 0.5 * kd / MAX_ANALOG;
 }
 
+/**
+ * Updates record of 10 previous errors
+ * This is so that we can get better derivative estimates for D
+ */
 void updateError(int error)
 {
     lastErrorIndex++;
@@ -86,12 +107,18 @@ void updateError(int error)
     pastErrors[lastErrorIndex] = error;
 }
 
+/**
+ * Updates coefficients kp and kd from potentiometer values
+ * Prints to OLED screen if value has significantly changed
+ */
 void updateCoefficients() 
 {
     kp = analogRead(PIN_PROP);
     kd = analogRead(PIN_DERIV);
 
-    if (abs(kp - kd) > 5) {
+    if (abs(kp - display_kp) > DELTA_TO_PRINT || abs(kd - display_kd) > DELTA_TO_PRINT) {
+        display_kp = kp;
+        display_kd = kd;
         display.clearDisplay();
         display.setCursor(4, 20);
         display.print("kp: ");
