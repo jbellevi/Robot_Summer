@@ -4,10 +4,10 @@
 #include <Arduino.h>
 #include "Motor.h"
 
-#define LEFT_MOTOR_PWM_FWD PA_0
-#define LEFT_MOTOR_PWM_BACK PA_1
-#define RIGHT_MOTOR_PWM_FWD PA_2
-#define RIGHT_MOTOR_PWM_BACK PA_3
+#define LEFT_MOTOR_PWM_FWD PA_7
+#define LEFT_MOTOR_PWM_BACK PA_6
+#define RIGHT_MOTOR_PWM_FWD PA_5
+#define RIGHT_MOTOR_PWM_BACK PA_4
 
 #define ANALOG_MAX 1023
 #define INITIALISE_PWM 1
