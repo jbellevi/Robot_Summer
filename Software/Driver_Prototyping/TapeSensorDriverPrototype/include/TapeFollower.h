@@ -9,6 +9,6 @@ void initTapeFollower();
 /**
  * Follows tape! Exciting stuff
  */
-void followTape();
+void followTape(float avg_duty_cycle);
 
 #endif // TAPEFOLLOWER_H_

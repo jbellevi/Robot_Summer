@@ -11,5 +11,5 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  followTape();
+  followTape(0.5);
 }

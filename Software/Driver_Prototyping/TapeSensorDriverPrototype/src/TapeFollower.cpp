@@ -5,7 +5,6 @@
 #include "TapeSensor.h"
 #include "TapeFollowerPID.h"
 
-float avg_duty_cycle = 0.5;
 float PID_output = 0;
 
 /**
@@ -19,7 +18,7 @@ void initTapeFollower()
 /**
  * Follows tape! Exciting stuff
  */
-void followTape() 
+void followTape(float avg_duty_cycle) 
 {
     runMotor(LEFT_MOTOR, FORWARD, avg_duty_cycle + PID_output);
     runMotor(RIGHT_MOTOR, FORWARD, avg_duty_cycle + PID_output);
