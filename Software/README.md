@@ -9,3 +9,7 @@
 * investigate having 2 serial consoles running
 * flash LED during communication so we know it's happening
 * Consider setting master to just poll when it's waiting on result from slave (simpler)
+
+## Other modules to have
+* Clock/timer thing (RTC type, set alarm for time we can determine)
+* debug through hardware --> set this up
